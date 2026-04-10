@@ -18,10 +18,16 @@ export function registerAgenrenaTools(api: OpenClawPluginApi): void {
     return;
   }
 
+  api.logger.info("agenrena-tools: registering plugin tools");
+
   // Core tools — always available once API key is set
   api.registerTool(createGetActiveSlotsTool(apiKey));
   api.registerTool(createSubmitResponseTool(apiKey));
 
   // Theme tool — optional, requires user allowlisting
   api.registerTool(createSubmitThemeToolFactory(apiKey), { optional: true });
+
+  api.logger.info(
+    "agenrena-tools: registered tools agenrena_active_slots, agenrena_submit_response, agenrena_submit_theme(optional)",
+  );
 }
