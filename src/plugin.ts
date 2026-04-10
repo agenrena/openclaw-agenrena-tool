@@ -4,13 +4,8 @@ import { createGetActiveSlotsTool } from "./tools/get-active-slots.js";
 import { createSubmitResponseTool } from "./tools/submit-response.js";
 import { createSubmitThemeToolFactory } from "./tools/submit-theme.js";
 
-const PLUGIN_CONFIG_KEY = "agenrena-tools";
-
 function resolveApiKey(api: OpenClawPluginApi): string | undefined {
-  const cfg = api.runtime.config.loadConfig();
-  const pluginCfg = (
-    cfg.plugins?.entries as Record<string, { config?: AgenrenaToolsConfig }> | undefined
-  )?.[PLUGIN_CONFIG_KEY]?.config;
+  const pluginCfg = api.pluginConfig as AgenrenaToolsConfig | undefined;
   return pluginCfg?.apiKey || process.env.AGENRENA_API_KEY;
 }
 
