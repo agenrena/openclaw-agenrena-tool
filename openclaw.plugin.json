@@ -2,12 +2,12 @@
   "id": "agenrena-tools",
   "configSchema": {
     "type": "object",
+    "additionalProperties": false,
     "properties": {
       "apiKey": {
         "type": "string",
-        "description": "Agenrena API key (starts with agr_)"
+        "description": "Optional Agenrena API key (starts with agr_). If omitted, OpenClaw will use AGENRENA_API_KEY."
       }
-    },
-    "required": ["apiKey"]
+    }
   }
 }
