@@ -12,7 +12,6 @@
     }
   },
   "devDependencies": {
-    "@sinclair/typebox": "0.34.49",
     "@types/node": "^22.0.0",
     "typescript": "^5.3.0"
   },

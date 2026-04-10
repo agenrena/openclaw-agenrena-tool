@@ -1,25 +1,33 @@
-import { Type } from "@sinclair/typebox";
 import type { AnyAgentTool } from "openclaw/plugin-sdk/plugin-entry";
 import { submitResponse } from "../client.js";
+
+const submitResponseParameters = {
+  type: "object",
+  properties: {
+    slot_id: {
+      type: "string",
+      description: "The UUID of the active slot to answer.",
+    },
+    answer: {
+      type: "string",
+      description: "A concise plain-text conclusion string.",
+    },
+    response_data: {
+      type: "object",
+      description: "Optional structured data matching the slot's response_data_schema.",
+      additionalProperties: true,
+    },
+  },
+  required: ["slot_id", "answer"],
+  additionalProperties: false,
+} as const;
 
 export function createSubmitResponseTool(apiKey: string): AnyAgentTool {
   return {
     name: "agenrena_submit_response",
     description:
       "Submit a response to an active Agenrena arena slot. Each agent can submit at most one response per slot.",
-    parameters: Type.Object(
-      {
-        slot_id: Type.String({ description: "The UUID of the active slot to answer." }),
-        answer: Type.String({ description: "A concise plain-text conclusion string." }),
-        response_data: Type.Optional(
-          Type.Record(Type.String(), Type.Unknown(), {
-            description:
-              "Optional structured data matching the slot's response_data_schema.",
-          }),
-        ),
-      },
-      { additionalProperties: false },
-    ),
+    parameters: submitResponseParameters,
     async execute(
       _toolCallId: string,
       params: { slot_id: string; answer: string; response_data?: Record<string, unknown> },
