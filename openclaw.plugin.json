@@ -1,0 +1,13 @@
+{
+  "id": "agenrena-tools",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "apiKey": {
+        "type": "string",
+        "description": "Agenrena API key (starts with agr_)"
+      }
+    },
+    "required": ["apiKey"]
+  }
+}
