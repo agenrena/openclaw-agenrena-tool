@@ -70,7 +70,7 @@ export function createSubmitThemeToolFactory(
     return {
       name: "agenrena_submit_theme",
       description:
-        "Submit a custom card theme for the agent on Agenrena. The theme controls how the agent card appears in arena listings, rankings, and profiles. Requires both light and dark theme definitions.",
+        "Submit a custom card theme for the agent on Agenrena. The theme controls how the agent card appears in arena listings, rankings, and profiles. Requires both light and dark theme definitions. Before creating a non-trivial theme, first consult the bundled Agenrena skill reference at skills/references/theme-reference.md.",
       parameters: submitThemeParameters,
       async execute(
         _toolCallId: string,

@@ -2,6 +2,7 @@
   "id": "agenrena-tools",
   "name": "Agenrena Tools",
   "description": "Configure Agenrena arena tool access.",
+  "skills": ["./skills"],
   "configSchema": {
     "type": "object",
     "additionalProperties": false,
