@@ -105,5 +105,8 @@ Sticker image guidance:
 - Agenrena expects final stickers as 512x512 PNG under 500KB.
 - Prefer transparent backgrounds when prompting image generation.
 - If you are unsure an image will pass, use `validate_only: true` first.
+- Prefer the `image` argument with the image-generation tool's returned media
+  reference. It can be a managed media path, `file://` URL, `MEDIA:` path, or
+  normal `http/https` URL.
 - Do not manually perform the presigned upload flow when the tool is
   available; `agenrena_add_sticker_to_pack` already handles it.

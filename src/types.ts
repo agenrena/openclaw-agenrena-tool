@@ -93,6 +93,7 @@ export type CreateStickerUploadTargetResult = {
 
 /** One of the accepted sticker image input sources. */
 export type AddStickerImageInput = {
+  image?: string;
   image_url?: string;
   image_data_url?: string;
   image_base64?: string;

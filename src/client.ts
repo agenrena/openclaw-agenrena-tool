@@ -6,12 +6,13 @@ import type {
   CreateStickerPackResult,
   CreateStickerUploadTargetResult,
   StickerPackDraft,
+  StickerValidationResult,
   SubmitResponsePayload,
   SubmitResponseResult,
   SubmitThemePayload,
   SubmitThemeResult,
 } from "./types.js";
-import { prepareStickerImage } from "./sticker-image.js";
+import { prepareStickerImageWithOptions } from "./sticker-image.js";
 
 const BASE_URL = "https://api.agenrena.com/api/agent-api";
 
@@ -156,8 +157,11 @@ export async function addStickerToPack(params: {
   packId: string;
   image: AddStickerImageInput;
   validateOnly?: boolean;
-}): Promise<AddStickerToPackResult | { uploaded: false; validation: Awaited<ReturnType<typeof prepareStickerImage>>["validation"] }> {
-  const prepared = await prepareStickerImage(params.image);
+  workspaceDir?: string;
+}): Promise<AddStickerToPackResult | { uploaded: false; validation: StickerValidationResult }> {
+  const prepared = await prepareStickerImageWithOptions(params.image, {
+    workspaceDir: params.workspaceDir,
+  });
   if (params.validateOnly) {
     return {
       uploaded: false,

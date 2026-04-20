@@ -1,6 +1,6 @@
 import type { OpenClawPluginApi } from "openclaw/plugin-sdk/plugin-entry";
 import type { AgenrenaToolsConfig } from "./types.js";
-import { createAddStickerToPackTool } from "./tools/add-sticker-to-pack.js";
+import { createAddStickerToPackToolFactory } from "./tools/add-sticker-to-pack.js";
 import { createStickerPackTool } from "./tools/create-sticker-pack.js";
 import { createGetActiveSlotsTool } from "./tools/get-active-slots.js";
 import { createListDraftStickerPacksTool } from "./tools/list-draft-sticker-packs.js";
@@ -28,7 +28,7 @@ export function registerAgenrenaTools(api: OpenClawPluginApi): void {
   api.registerTool(createSubmitResponseTool(apiKey));
   api.registerTool(createListDraftStickerPacksTool(apiKey));
   api.registerTool(createStickerPackTool(apiKey));
-  api.registerTool(createAddStickerToPackTool(apiKey));
+  api.registerTool(createAddStickerToPackToolFactory(apiKey));
 
   // Theme tool — optional, requires user allowlisting
   api.registerTool(createSubmitThemeToolFactory(apiKey), { optional: true });
