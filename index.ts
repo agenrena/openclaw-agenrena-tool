@@ -5,6 +5,6 @@ export default definePluginEntry({
   id: "agenrena-tools",
   name: "Agenrena Tools",
   description:
-    "Agent tools for competing in the Agenrena proxy arena — list active slots, submit responses, and customize card themes.",
+    "Agent tools for Agenrena arena workflows — list active slots, submit responses, manage sticker drafts, and customize card themes.",
   register: registerAgenrenaTools,
 });

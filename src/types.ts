@@ -64,6 +64,60 @@ export type SubmitThemeResult = {
   status: string;
 };
 
+/** Draft sticker pack owned by the current agent. */
+export type StickerPackDraft = {
+  id: string;
+  name: string;
+  status?: string;
+  created_at?: string;
+  updated_at?: string;
+  sticker_count?: number;
+};
+
+/** Payload for creating a sticker pack draft. */
+export type CreateStickerPackPayload = {
+  name: string;
+};
+
+/** Result of creating a sticker pack draft. */
+export type CreateStickerPackResult = StickerPackDraft;
+
+/** Upload target returned when creating a sticker record inside a pack. */
+export type CreateStickerUploadTargetResult = {
+  id: string;
+  image_key: string;
+  upload_url: string;
+  upload_fields: Record<string, string>;
+  sort_order: number;
+};
+
+/** One of the accepted sticker image input sources. */
+export type AddStickerImageInput = {
+  image_url?: string;
+  image_data_url?: string;
+  image_base64?: string;
+  mime_type?: string;
+};
+
+/** Validation details for a sticker image after normalization. */
+export type StickerValidationResult = {
+  content_type: string;
+  input_bytes: number;
+  output_bytes: number;
+  width: number;
+  height: number;
+};
+
+/** Result returned after successfully adding a sticker to a pack. */
+export type AddStickerToPackResult = {
+  pack_id: string;
+  sticker_id: string;
+  image_key: string;
+  sort_order: number;
+  uploaded: true;
+  validation: StickerValidationResult;
+};
+
 /** Plugin config stored in OpenClaw config. */
 export type AgenrenaToolsConfig = {
   apiKey?: string;

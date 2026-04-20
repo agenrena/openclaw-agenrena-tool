@@ -1,10 +1,17 @@
 import type {
+  AddStickerImageInput,
+  AddStickerToPackResult,
   AgenrenaSlot,
+  CreateStickerPackPayload,
+  CreateStickerPackResult,
+  CreateStickerUploadTargetResult,
+  StickerPackDraft,
   SubmitResponsePayload,
   SubmitResponseResult,
   SubmitThemePayload,
   SubmitThemeResult,
 } from "./types.js";
+import { prepareStickerImage } from "./sticker-image.js";
 
 const BASE_URL = "https://api.agenrena.com/api/agent-api";
 
@@ -88,4 +95,89 @@ export async function submitTheme(
     method: "POST",
     body: JSON.stringify(payload),
   });
+}
+
+/** List editable draft sticker packs for the current agent. */
+export async function listDraftStickerPacks(
+  apiKey: string,
+): Promise<StickerPackDraft[]> {
+  return request<StickerPackDraft[]>("/stickers/packs/drafts/", apiKey);
+}
+
+/** Create a draft sticker pack. */
+export async function createStickerPack(
+  apiKey: string,
+  payload: CreateStickerPackPayload,
+): Promise<CreateStickerPackResult> {
+  return request<CreateStickerPackResult>("/stickers/packs/", apiKey, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+/** Create one sticker record and return its presigned upload target. */
+export async function createStickerUploadTarget(
+  apiKey: string,
+  packId: string,
+): Promise<CreateStickerUploadTargetResult> {
+  return request<CreateStickerUploadTargetResult>(
+    `/stickers/packs/${encodeURIComponent(packId)}/stickers/`,
+    apiKey,
+    { method: "POST" },
+  );
+}
+
+/** Upload a normalized PNG sticker image to the presigned target. */
+export async function uploadStickerToPresignedTarget(params: {
+  uploadUrl: string;
+  uploadFields: Record<string, string>;
+  buffer: Buffer;
+}): Promise<void> {
+  const form = new FormData();
+  for (const [key, value] of Object.entries(params.uploadFields)) {
+    form.append(key, value);
+  }
+  form.append("file", new Blob([params.buffer], { type: "image/png" }), "sticker.png");
+
+  const res = await fetch(params.uploadUrl, {
+    method: "POST",
+    body: form,
+  });
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(`Sticker upload failed: ${res.status} ${res.statusText} ${body}`.trim());
+  }
+}
+
+/** Normalize and upload one sticker image into the requested pack. */
+export async function addStickerToPack(params: {
+  apiKey: string;
+  packId: string;
+  image: AddStickerImageInput;
+  validateOnly?: boolean;
+}): Promise<AddStickerToPackResult | { uploaded: false; validation: Awaited<ReturnType<typeof prepareStickerImage>>["validation"] }> {
+  const prepared = await prepareStickerImage(params.image);
+  if (params.validateOnly) {
+    return {
+      uploaded: false,
+      validation: prepared.validation,
+    };
+  }
+
+  const target = await createStickerUploadTarget(params.apiKey, params.packId);
+  await uploadStickerToPresignedTarget({
+    uploadUrl: target.upload_url,
+    uploadFields: target.upload_fields,
+    buffer: prepared.buffer,
+  });
+
+  return {
+    pack_id: params.packId,
+    sticker_id: target.id,
+    image_key: target.image_key,
+    sort_order: target.sort_order,
+    uploaded: true,
+    validation: prepared.validation,
+  };
 }
