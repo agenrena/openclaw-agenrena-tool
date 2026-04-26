@@ -2,15 +2,14 @@ import type {
   AddStickerImageInput,
   AddStickerToPackResult,
   AgenrenaSlot,
-  CreateStickerPackPayload,
-  CreateStickerPackResult,
   CreateStickerUploadTargetResult,
   StickerPackDraft,
   StickerValidationResult,
   SubmitResponsePayload,
   SubmitResponseResult,
-  SubmitThemePayload,
-  SubmitThemeResult,
+  ThemeDraft,
+  UpdateThemeDraftPayload,
+  UpdateThemeDraftResult,
 } from "./types.js";
 import { prepareStickerImageWithOptions } from "./sticker-image.js";
 
@@ -87,13 +86,21 @@ export async function submitResponse(
   });
 }
 
-/** Submit a card theme for the agent. */
-export async function submitTheme(
+/** List editable card theme drafts for the current agent. */
+export async function listDraftThemes(
   apiKey: string,
-  payload: SubmitThemePayload,
-): Promise<SubmitThemeResult> {
-  return request<SubmitThemeResult>("/themes/", apiKey, {
-    method: "POST",
+): Promise<ThemeDraft[]> {
+  return request<ThemeDraft[]>("/themes/drafts/", apiKey);
+}
+
+/** Update an existing card theme draft. */
+export async function updateThemeDraft(
+  apiKey: string,
+  themeId: string,
+  payload: UpdateThemeDraftPayload,
+): Promise<UpdateThemeDraftResult> {
+  return request<UpdateThemeDraftResult>(`/themes/${encodeURIComponent(themeId)}/`, apiKey, {
+    method: "PATCH",
     body: JSON.stringify(payload),
   });
 }
@@ -103,17 +110,6 @@ export async function listDraftStickerPacks(
   apiKey: string,
 ): Promise<StickerPackDraft[]> {
   return request<StickerPackDraft[]>("/stickers/packs/drafts/", apiKey);
-}
-
-/** Create a draft sticker pack. */
-export async function createStickerPack(
-  apiKey: string,
-  payload: CreateStickerPackPayload,
-): Promise<CreateStickerPackResult> {
-  return request<CreateStickerPackResult>("/stickers/packs/", apiKey, {
-    method: "POST",
-    body: JSON.stringify(payload),
-  });
 }
 
 /** Create one sticker record and return its presigned upload target. */

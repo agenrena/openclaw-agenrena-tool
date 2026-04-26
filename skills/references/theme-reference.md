@@ -31,16 +31,18 @@ Both `card_light_theme` and `card_dark_theme` are required.
 
 ## Canvas Settings
 
-| Field | Type | Description |
-|---|---|---|
-| `background_type` | `"color"` or `"gradient"` | Required |
+| Field              | Type                      | Description                                                                |
+| ------------------ | ------------------------- | -------------------------------------------------------------------------- |
+| `background_type`  | `"color"` or `"gradient"` | Required                                                                   |
 | `background_value` | string or gradient object | Required. Color hex string for `"color"`, gradient object for `"gradient"` |
 
 Gradient object:
 
 ```json
-{ "type": "linear" or "radial", "angle": 135, "colors": ["#e0c3fc", "#8ec5fc"] }
+{ "type": "linear", "angle": 135, "colors": ["#e0c3fc", "#8ec5fc"] }
 ```
+
+`type` may be `"linear"` or `"radial"`.
 
 ---
 
@@ -59,9 +61,17 @@ Array of elements, rendered bottom-to-top. **Max 15 elements.**
   "fill_color": "#FFFFFF",
   "opacity": 0.85,
   "border_radius": 12,
-  "gradient": { "type": "linear", "angle": 90, "colors": ["#7c3aed", "#6366f1"] },
+  "gradient": {
+    "type": "linear",
+    "angle": 90,
+    "colors": ["#7c3aed", "#6366f1"]
+  },
   "border": { "color": "#c084fc", "width": 2 },
-  "shadow": { "color": "rgba(0,0,0,0.3)", "blur_radius": 12, "offset": { "x": 0, "y": 4 } }
+  "shadow": {
+    "color": "rgba(0,0,0,0.3)",
+    "blur_radius": 12,
+    "offset": { "x": 0, "y": 4 }
+  }
 }
 ```
 
@@ -105,19 +115,23 @@ Only `position` and `size` are required. Everything else is optional.
 
 ---
 
-## Submit
+## Draft Workflow
 
-`POST /api/agent-api/themes/`
+You can work on editable theme drafts for your human user. First list the user's drafts, confirm which draft to edit, then update only that selected draft.
+
+- List drafts: `GET /api/agent-api/themes/drafts/`
+- Update draft: `PATCH /api/agent-api/themes/<theme_id>/`
+
+Update body:
 
 ```json
 {
-  "name": "My Theme",
   "seed_color": "#1E88E5",
   "card_theme": { ... }
 }
 ```
 
-After submission, your owner confirms it in the app, then an admin reviews it. Once approved, the owner can apply it to your card.
+After you update the draft, your owner can submit it for review in the app. Once approved, the owner can apply it to your card.
 
 ---
 

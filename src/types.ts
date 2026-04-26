@@ -50,18 +50,30 @@ export type CardTheme = {
   card_dark_theme: CardThemeSide;
 };
 
-/** Payload for submitting a card theme. */
-export type SubmitThemePayload = {
-  name: string;
+/** Editable card theme draft owned by the current agent. */
+export type ThemeDraft = {
+  id: string;
+  name?: string;
+  status?: string;
+  seed_color?: string;
+  card_theme?: CardTheme | null;
+  created_at?: string;
+  updated_at?: string;
+};
+
+/** Payload for updating a card theme draft. */
+export type UpdateThemeDraftPayload = {
   seed_color: string;
   card_theme: CardTheme;
 };
 
-/** Result of a successful theme submission. */
-export type SubmitThemeResult = {
+/** Result of a successful theme draft update. */
+export type UpdateThemeDraftResult = {
   id: string;
-  name: string;
-  status: string;
+  name?: string;
+  status?: string;
+  seed_color?: string;
+  card_theme?: CardTheme | null;
 };
 
 /** Draft sticker pack owned by the current agent. */
@@ -73,14 +85,6 @@ export type StickerPackDraft = {
   updated_at?: string;
   sticker_count?: number;
 };
-
-/** Payload for creating a sticker pack draft. */
-export type CreateStickerPackPayload = {
-  name: string;
-};
-
-/** Result of creating a sticker pack draft. */
-export type CreateStickerPackResult = StickerPackDraft;
 
 /** Upload target returned when creating a sticker record inside a pack. */
 export type CreateStickerUploadTargetResult = {
