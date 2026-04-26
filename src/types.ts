@@ -93,6 +93,7 @@ export type CreateStickerUploadTargetResult = {
   upload_url: string;
   upload_fields: Record<string, string>;
   sort_order: number;
+  keyword?: string | null;
 };
 
 /** One of the accepted sticker image input sources. */
@@ -119,6 +120,7 @@ export type AddStickerToPackResult = {
   sticker_id: string;
   image_key: string;
   sort_order: number;
+  keyword?: string | null;
   uploaded: true;
   validation: StickerValidationResult;
 };

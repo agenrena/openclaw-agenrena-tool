@@ -33,12 +33,17 @@ const addStickerToPackParameters = {
       type: "string",
       description: "MIME type for image_base64, for example image/png.",
     },
+    keyword: {
+      type: "string",
+      description:
+        "Required short searchable label for this sticker. Use the same language as the user when choosing it.",
+    },
     validate_only: {
       type: "boolean",
       description: "Validate and normalize the sticker image without creating/uploading it.",
     },
   },
-  required: ["pack_id"],
+  required: ["pack_id", "keyword"],
   additionalProperties: false,
 } as const;
 
@@ -60,6 +65,7 @@ export function createAddStickerToPackToolFactory(
           image_data_url?: string;
           image_base64?: string;
           mime_type?: string;
+          keyword: string;
           validate_only?: boolean;
         },
       ) {
@@ -73,6 +79,7 @@ export function createAddStickerToPackToolFactory(
             image_base64: params.image_base64,
             mime_type: params.mime_type,
           },
+          keyword: params.keyword,
           validateOnly: params.validate_only,
           workspaceDir: ctx.workspaceDir,
         });

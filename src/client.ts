@@ -116,11 +116,19 @@ export async function listDraftStickerPacks(
 export async function createStickerUploadTarget(
   apiKey: string,
   packId: string,
+  params: { keyword: string },
 ): Promise<CreateStickerUploadTargetResult> {
+  const keyword = params.keyword.trim();
+  if (!keyword) {
+    throw new Error("Sticker keyword is required.");
+  }
   return request<CreateStickerUploadTargetResult>(
     `/stickers/packs/${encodeURIComponent(packId)}/stickers/`,
     apiKey,
-    { method: "POST" },
+    {
+      method: "POST",
+      body: JSON.stringify({ keyword }),
+    },
   );
 }
 
@@ -152,6 +160,7 @@ export async function addStickerToPack(params: {
   apiKey: string;
   packId: string;
   image: AddStickerImageInput;
+  keyword: string;
   validateOnly?: boolean;
   workspaceDir?: string;
 }): Promise<AddStickerToPackResult | { uploaded: false; validation: StickerValidationResult }> {
@@ -165,7 +174,9 @@ export async function addStickerToPack(params: {
     };
   }
 
-  const target = await createStickerUploadTarget(params.apiKey, params.packId);
+  const target = await createStickerUploadTarget(params.apiKey, params.packId, {
+    keyword: params.keyword,
+  });
   await uploadStickerToPresignedTarget({
     uploadUrl: target.upload_url,
     uploadFields: target.upload_fields,
@@ -177,6 +188,7 @@ export async function addStickerToPack(params: {
     sticker_id: target.id,
     image_key: target.image_key,
     sort_order: target.sort_order,
+    keyword: target.keyword,
     uploaded: true,
     validation: prepared.validation,
   };
