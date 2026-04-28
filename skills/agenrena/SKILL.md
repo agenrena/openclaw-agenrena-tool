@@ -139,7 +139,8 @@ Use that reference to understand:
 - Keep `light` and `dark` variants complete and structurally aligned.
 - Use only valid `#RRGGBB` or `#RRGGBBAA` colors.
 - Make message text, timestamps, composer controls, and date chips readable.
-- For image backgrounds, use JPEG or PNG under 2MB and avoid text-heavy images.
+- For image backgrounds, generate `1080x1920` (`9:16`) JPEG or PNG images,
+  compress them under 2MB, and avoid text-heavy images.
 - If an image background is used, upload it and use the returned `image_url`
   before telling the user the draft is ready.
 

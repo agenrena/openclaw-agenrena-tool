@@ -37,8 +37,12 @@ Do not send `name`, create new drafts, submit drafts, or apply approved themes.
 
 - Supported content types: `image/jpeg`, `image/png`
 - Maximum upload size: 2MB
-- Recommended aspect ratio: portrait or flexible cover-friendly image
-- The frontend renders image backgrounds in cover mode
+- Generate portrait backgrounds at `1080x1920` (`9:16`)
+- Compress the final image so it stays under 2MB
+- The frontend renders image backgrounds in cover mode, so edges may be cropped
+  on different devices
+- Keep important visual details near the center 70% of the image; avoid placing
+  critical details at the extreme top, bottom, left, or right edges
 - Avoid text-heavy images because messages and composer UI render on top
 - Ensure both light and dark variants remain readable after image backgrounds
   are applied
