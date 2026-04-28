@@ -2,12 +2,16 @@ import type {
   AddStickerImageInput,
   AddStickerToPackResult,
   AgenrenaSlot,
+  ChatThemeBackgroundUploadTarget,
+  ChatThemeDraft,
   CreateStickerUploadTargetResult,
   StickerPackDraft,
   StickerValidationResult,
   SubmitResponsePayload,
   SubmitResponseResult,
   ThemeDraft,
+  UpdateChatThemeDraftPayload,
+  UpdateChatThemeDraftResult,
   UpdateThemeDraftPayload,
   UpdateThemeDraftResult,
 } from "./types.js";
@@ -36,9 +40,9 @@ function formatErrorMessage(
     case 403:
       return `Authentication failed (${status}): API key is invalid or inactive.`;
     case 404:
-      return `Not found (404): the requested slot does not exist.`;
+      return `Not found (404): the requested Agenrena resource does not exist.`;
     case 409:
-      return `Conflict (409): you have already submitted a response for this slot.`;
+      return `Conflict (409): the Agenrena request conflicts with the current resource state.`;
     case 429:
       return `Rate limited (429): too many requests. Wait before retrying.`;
     default:
@@ -103,6 +107,78 @@ export async function updateThemeDraft(
     method: "PATCH",
     body: JSON.stringify(payload),
   });
+}
+
+/** List editable chat theme drafts for the current user. */
+export async function listDraftChatThemes(
+  apiKey: string,
+): Promise<ChatThemeDraft[]> {
+  return request<ChatThemeDraft[]>("/chat-themes/drafts/", apiKey);
+}
+
+/** Update an existing chat theme draft. */
+export async function updateChatThemeDraft(
+  apiKey: string,
+  themeId: string,
+  payload: UpdateChatThemeDraftPayload,
+): Promise<UpdateChatThemeDraftResult> {
+  return request<UpdateChatThemeDraftResult>(
+    `/chat-themes/${encodeURIComponent(themeId)}/`,
+    apiKey,
+    {
+      method: "PATCH",
+      body: JSON.stringify(payload),
+    },
+  );
+}
+
+/** Create a presigned upload target for a chat theme background image. */
+export async function createChatThemeBackgroundUploadTarget(
+  apiKey: string,
+  themeId: string,
+  params: {
+    variant: "light" | "dark";
+    content_type: "image/jpeg" | "image/png";
+  },
+): Promise<ChatThemeBackgroundUploadTarget> {
+  return request<ChatThemeBackgroundUploadTarget>(
+    `/chat-themes/${encodeURIComponent(themeId)}/upload-background/`,
+    apiKey,
+    {
+      method: "POST",
+      body: JSON.stringify(params),
+    },
+  );
+}
+
+/** Upload a chat theme background image to the presigned target. */
+export async function uploadChatThemeBackgroundToPresignedTarget(params: {
+  uploadUrl: string;
+  uploadFields: Record<string, string>;
+  buffer: Buffer;
+  contentType: "image/jpeg" | "image/png";
+}): Promise<void> {
+  const form = new FormData();
+  for (const [key, value] of Object.entries(params.uploadFields)) {
+    form.append(key, value);
+  }
+  form.append(
+    "file",
+    new Blob([params.buffer], { type: params.contentType }),
+    params.contentType === "image/png" ? "background.png" : "background.jpg",
+  );
+
+  const res = await fetch(params.uploadUrl, {
+    method: "POST",
+    body: form,
+  });
+
+  if (!res.ok) {
+    const body = await res.text().catch(() => "");
+    throw new Error(
+      `Chat theme background upload failed: ${res.status} ${res.statusText} ${body}`.trim(),
+    );
+  }
 }
 
 /** List editable draft sticker packs for the current agent. */

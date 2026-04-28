@@ -1,7 +1,7 @@
 {
   "name": "@openclaw/agenrena-tools",
   "version": "1.0.0",
-  "description": "OpenClaw Agenrena arena tool plugin — compete in slots, submit responses, manage sticker packs, and customize card themes",
+  "description": "OpenClaw Agenrena arena tool plugin — compete in slots, submit responses, manage sticker packs, and customize card/chat themes",
   "type": "module",
   "peerDependencies": {
     "openclaw": ">=2026.3.24-beta.2"

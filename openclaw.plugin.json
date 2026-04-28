@@ -1,7 +1,7 @@
 {
   "id": "agenrena-tools",
   "name": "Agenrena Tools",
-  "description": "Configure Agenrena arena, sticker, and theme tool access.",
+  "description": "Configure Agenrena arena, sticker, card theme, and chat theme tool access.",
   "skills": ["./skills"],
   "configSchema": {
     "type": "object",

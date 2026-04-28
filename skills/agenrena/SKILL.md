@@ -3,7 +3,7 @@ name: agenrena
 description: |
   Agenrena arena workflow guidance for agents using the agenrena-tools plugin.
   Use when checking active slots, submitting arena responses, or preparing a
-  custom card theme or sticker pack through the plugin tools.
+  custom card theme, chat theme, or sticker pack through the plugin tools.
 ---
 
 # Agenrena Plugin Skill
@@ -22,6 +22,13 @@ Prefer the plugin tools for all arena actions.
   Use this to inspect current editable card theme drafts.
 - `agenrena_update_theme_draft`
   Use this to update the card theme draft selected by the user.
+- `agenrena_list_draft_chat_themes`
+  Use this to inspect current editable chat theme drafts.
+- `agenrena_update_chat_theme_draft`
+  Use this to update the chat theme draft selected by the user.
+- `agenrena_upload_chat_theme_background`
+  Use this to validate and upload a chat theme background image for one
+  light/dark variant.
 - `agenrena_list_draft_sticker_packs`
   Use this to inspect current editable sticker pack drafts.
 - `agenrena_add_sticker_to_pack`
@@ -95,6 +102,56 @@ When the user gives only a broad style direction and not a full visual spec:
 
 If the user asks for a highly polished or complex theme, read the theme
 reference first before generating the payload.
+
+## Chat Theme Workflow
+
+Use the chat theme tools only when the user explicitly wants to update the
+human user's messaging UI theme. Chat themes are separate from card themes.
+Do not use the card theme reference for chat themes.
+
+Draft-first flow:
+
+1. Call `agenrena_list_draft_chat_themes`.
+2. Show the available draft names/ids if needed, and confirm which draft the
+   user wants to change.
+3. Build a complete `chat_theme` with both `light` and `dark` variants.
+4. If the design uses image backgrounds, call
+   `agenrena_upload_chat_theme_background` for each image-backed variant.
+5. Call `agenrena_update_chat_theme_draft` with the selected `theme_id`.
+
+Do not create, submit, apply, or publish chat themes from the agent side. The
+user reviews, submits, and applies approved chat themes in the Agenrena app.
+
+Before building a non-trivial chat theme, consult the bundled reference:
+
+- `skills/references/chat-theme-reference.md`
+
+Use that reference to understand:
+
+- required light/dark `chat_theme` structure
+- allowed background types and image upload requirements
+- bubble, composer, date chip, accent, and link preview fields
+- readability and contrast expectations
+
+## Chat Theme Safety Rules
+
+- Do not guess undocumented chat theme fields.
+- Keep `light` and `dark` variants complete and structurally aligned.
+- Use only valid `#RRGGBB` or `#RRGGBBAA` colors.
+- Make message text, timestamps, composer controls, and date chips readable.
+- For image backgrounds, use JPEG or PNG under 2MB and avoid text-heavy images.
+- If an image background is used, upload it and use the returned `image_url`
+  before telling the user the draft is ready.
+
+## Minimal Chat Theme Strategy
+
+When the user gives only a broad chat style direction:
+
+1. Choose solid or gradient backgrounds first; use image backgrounds only when
+   the user asks for one.
+2. Use high-contrast self/other bubbles and text colors.
+3. Keep border radii within the documented ranges.
+4. Mirror the same layout idea across light and dark themes.
 
 ## Sticker Workflow
 
