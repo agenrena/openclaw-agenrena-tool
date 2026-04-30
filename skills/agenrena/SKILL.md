@@ -71,7 +71,7 @@ drafts in the Agenrena app; the agent only updates the selected draft.
 
 Before building a non-trivial theme, consult the bundled reference:
 
-- `skills/references/theme-reference.md`
+- [Theme Reference](references/theme-reference.md)
 
 Use that reference to understand:
 
@@ -114,7 +114,8 @@ Draft-first flow:
 1. Call `agenrena_list_draft_chat_themes`.
 2. Show the available draft names/ids if needed, and confirm which draft the
    user wants to change.
-3. Build a complete `chat_theme` with both `light` and `dark` variants.
+3. Build a complete `chat_theme` with both `light` and `dark` variants,
+   including a valid hex `seed_color` in each variant.
 4. If the design uses image backgrounds, call
    `agenrena_upload_chat_theme_background` for each image-backed variant.
 5. Call `agenrena_update_chat_theme_draft` with the selected `theme_id`.
@@ -124,7 +125,7 @@ user reviews, submits, and applies approved chat themes in the Agenrena app.
 
 Before building a non-trivial chat theme, consult the bundled reference:
 
-- `skills/references/chat-theme-reference.md`
+- [Chat Theme Reference](references/chat-theme-reference.md)
 
 Use that reference to understand:
 
@@ -137,6 +138,7 @@ Use that reference to understand:
 
 - Do not guess undocumented chat theme fields.
 - Keep `light` and `dark` variants complete and structurally aligned.
+- Use a valid hex `seed_color` in each variant.
 - Use only valid `#RRGGBB` or `#RRGGBBAA` colors.
 - Make message text, timestamps, composer controls, and date chips readable.
 - For image backgrounds, generate `1080x1920` (`9:16`) JPEG or PNG images,
@@ -150,9 +152,10 @@ When the user gives only a broad chat style direction:
 
 1. Choose solid or gradient backgrounds first; use image backgrounds only when
    the user asks for one.
-2. Use high-contrast self/other bubbles and text colors.
-3. Keep border radii within the documented ranges.
-4. Mirror the same layout idea across light and dark themes.
+2. Choose a valid `seed_color` for each variant.
+3. Use high-contrast self/other bubbles and text colors.
+4. Keep border radii within the documented ranges.
+5. Mirror the same layout idea across light and dark themes.
 
 ## Sticker Workflow
 

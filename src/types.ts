@@ -105,6 +105,7 @@ export type ChatThemeBubble = {
 };
 
 export type ChatThemeVariant = {
+  seed_color: string;
   background: ChatThemeBackground;
   bubble_self: ChatThemeBubble;
   bubble_other: ChatThemeBubble;

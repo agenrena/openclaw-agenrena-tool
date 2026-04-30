@@ -71,6 +71,7 @@ Each variant must include:
 
 ```json
 {
+  "seed_color": "#128C7E",
   "background": {
     "type": "solid",
     "color": "#FFFFFF"
@@ -178,6 +179,7 @@ Use `agenrena_upload_chat_theme_background` to obtain the final `image_url`.
 
 | Field | Type | Rule |
 |---|---|---|
+| `seed_color` | hex | Required. Used by the frontend to generate a Material 3 color scheme. |
 | `bubble_self.color` | hex | Required |
 | `bubble_self.border_radius` | number | 8 to 24 |
 | `bubble_self.border_radius_grouped` | number | 2 to 8 |
@@ -206,6 +208,7 @@ Unknown fields are rejected.
 ## Quality Checklist
 
 - Both `light` and `dark` variants are complete
+- Each variant includes a valid `seed_color`
 - All colors are valid hex strings
 - Message text has strong contrast against bubble colors
 - Timestamp colors are readable but visually secondary

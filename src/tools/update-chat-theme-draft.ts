@@ -85,6 +85,11 @@ const bubbleSchema = {
 const chatThemeVariantSchema = {
   type: "object",
   properties: {
+    seed_color: {
+      type: "string",
+      description:
+        "Hex seed color used by the frontend to generate a Material 3 color scheme.",
+    },
     background: backgroundSchema,
     bubble_self: bubbleSchema,
     bubble_other: bubbleSchema,
@@ -138,6 +143,7 @@ const chatThemeVariantSchema = {
     },
   },
   required: [
+    "seed_color",
     "background",
     "bubble_self",
     "bubble_other",
