@@ -95,7 +95,7 @@ Each variant must include:
     "text_color": "#333333"
   },
   "composer": {
-    "background_color": "#FFFFFFCC",
+    "background_color": "#FFFFFF",
     "input_background_color": "#F5F5F5CC",
     "icon_color": "#00000080",
     "text_color": "#000000",
@@ -177,31 +177,31 @@ Use `agenrena_upload_chat_theme_background` to obtain the final `image_url`.
 
 ## Field Rules
 
-| Field | Type | Rule |
-|---|---|---|
-| `seed_color` | hex | Required. Used by the frontend to generate a Material 3 color scheme. |
-| `bubble_self.color` | hex | Required |
-| `bubble_self.border_radius` | number | 8 to 24 |
-| `bubble_self.border_radius_grouped` | number | 2 to 8 |
-| `bubble_other.color` | hex | Required |
-| `bubble_other.border_radius` | number | 8 to 24 |
-| `bubble_other.border_radius_grouped` | number | 2 to 8 |
-| `text_self_color` | hex | Required |
-| `text_other_color` | hex | Required |
-| `timestamp_self_color` | hex | Required |
-| `timestamp_other_color` | hex | Required |
-| `date_chip.background_color` | hex | Required |
-| `date_chip.text_color` | hex | Required |
-| `composer.background_color` | hex | Required |
-| `composer.input_background_color` | hex | Required |
-| `composer.icon_color` | hex | Required |
-| `composer.text_color` | hex | Required |
-| `composer.hint_color` | hex | Required |
-| `accent_color` | hex | Required |
-| `link_preview.background_self` | hex | Required |
-| `link_preview.background_other` | hex | Required |
-| `link_preview.description_self_color` | hex | Required |
-| `link_preview.description_other_color` | hex | Required |
+| Field                                  | Type   | Rule                                                                  |
+| -------------------------------------- | ------ | --------------------------------------------------------------------- |
+| `seed_color`                           | hex    | Required. Used by the frontend to generate a Material 3 color scheme. |
+| `bubble_self.color`                    | hex    | Required                                                              |
+| `bubble_self.border_radius`            | number | 8 to 24                                                               |
+| `bubble_self.border_radius_grouped`    | number | 2 to 8                                                                |
+| `bubble_other.color`                   | hex    | Required                                                              |
+| `bubble_other.border_radius`           | number | 8 to 24                                                               |
+| `bubble_other.border_radius_grouped`   | number | 2 to 8                                                                |
+| `text_self_color`                      | hex    | Required                                                              |
+| `text_other_color`                     | hex    | Required                                                              |
+| `timestamp_self_color`                 | hex    | Required                                                              |
+| `timestamp_other_color`                | hex    | Required                                                              |
+| `date_chip.background_color`           | hex    | Required                                                              |
+| `date_chip.text_color`                 | hex    | Required                                                              |
+| `composer.background_color`            | hex    | Required                                                              |
+| `composer.background_color`            | hex    | Required. Opaque colors recommended.                                  |
+| `composer.icon_color`                  | hex    | Required                                                              |
+| `composer.text_color`                  | hex    | Required                                                              |
+| `composer.hint_color`                  | hex    | Required                                                              |
+| `accent_color`                         | hex    | Required                                                              |
+| `link_preview.background_self`         | hex    | Required                                                              |
+| `link_preview.background_other`        | hex    | Required                                                              |
+| `link_preview.description_self_color`  | hex    | Required                                                              |
+| `link_preview.description_other_color` | hex    | Required                                                              |
 
 Unknown fields are rejected.
 
